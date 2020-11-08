@@ -44,10 +44,6 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     this.__preNodeValues = {};
   }
 
-  get destination() {
-    return this.__getDestination(this.destinationId);
-  }
-
   get destinations() {
     return this.__getDestinations(this.destinationId);
   }
