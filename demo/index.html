@@ -9,32 +9,68 @@
 <body>
 
   <audio-context id="ctx"></audio-context>
+
+  <input id="input" type="file" accept="audio/*">
+  <button id="btn" disabled>Play</button>
  
   <script>
 
+    const destination = document.createElement('audio-destination-node');
+    destination.id = 'destination';
+    ctx.appendChild(destination);
+
     const gain = document.createElement('gain-node');
-    gain.setAttribute('gain', 100);
+    gain.id = 'gain';
+    gain.setAttribute('gain', 1);
+    gain.dest = 'destination';
     ctx.appendChild(gain);
 
     const biquadFilter = document.createElement('biquad-filter-node');
+    biquadFilter.id = 'biquadFilter';
     biquadFilter.setAttribute('frequency', 10);
     ctx.appendChild(biquadFilter);
 
     const convolver = document.createElement('convolver-node');
+    convolver.id = 'convolver';
     convolver.setAttribute('normalize', '');
     ctx.appendChild(convolver);
 
     const delay = document.createElement('delay-node');
+    delay.id = 'delay';
     delay.setAttribute('max-delay-time', 100);
     ctx.appendChild(delay);
 
     const dynamicsCompressor = document.createElement('dynamics-compressor-node');
+    dynamicsCompressor.id = 'dynamicsCompressor';
     dynamicsCompressor.setAttribute('threshold', -10);
     ctx.appendChild(dynamicsCompressor);
 
     const bufferSource = document.createElement('audio-buffer-source-node');
+    bufferSource.id = 'bufferSource';
+    bufferSource.dest = 'gain';
     ctx.appendChild(bufferSource);
 
+    input.addEventListener('change', e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const buffer = document.createElement('audio-buffer');
+        buffer.id = 'buffer';
+        ctx.appendChild(buffer);
+        buffer.arrayBuffer = reader.result;
+        buffer.addEventListener('buffer-changed', e => {
+          bufferSource.bufferId = 'buffer';
+          btn.disabled = false;
+        })
+      }
+      reader.readAsArrayBuffer(file);
+      e.target.value = '';
+    })
+
+    btn.addEventListener('click', e => bufferSource.node.start(0));
+
+    
+    
   </script>
 
 </body>
