@@ -22,14 +22,6 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
     this.addEventListener('buffer-changed', this.__bufferElementsChanged.bind(this));
   }
 
-  get audioElements() {
-    return [...this.children].filter(child => child?.node ? this.__getConstructorChain(child?.node).has('AudioNode') : false);
-  }
-
-  get bufferElements() {
-    return [...this.children].filter(child => child.localName === 'audio-buffer');
-  }
-
   get context() {
     return CONTEXT;
   }
@@ -66,10 +58,6 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
     return this.context.destination;
   }
 
-  getOutputTimestamp() {
-    return this.context.getOutputTimestamp;
-  }
-
   get listener() {
     return this.context.listener;
   }
@@ -94,34 +82,12 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
     return this.context.suspend();
   }
 
-  __contextChanged() {
-    this.__updateChildren();
-    this.dispatchEvent(new CustomEvent('context-changed'));
-  }
-
   __audioElementsChanged() {
-    this.__updateChildren();
     this.dispatchEvent(new CustomEvent('nodes-changed', {composed: true, bubbles: true}));
   }
 
   __bufferElementsChanged() {
-    this.__updateChildren();
     this.dispatchEvent(new CustomEvent('buffers-changed', {composed: true, bubbles: true}));
-  }
-
-  __updateChildren() {
-    [...this.children].map(node => {
-      node.__audioElements = [...this.audioElements];
-      node.__bufferElements = [...this.bufferElements];
-      node.__context = this.context;
-    });
-  }
-
-  __getConstructorChain(obj=this.node, names=new Set()) {
-    const prototype = Object.getPrototypeOf(obj);
-    if(!prototype?.constructor) return names;
-    names.add(prototype.constructor.name);
-    return this.__getConstructorChain(prototype, names);
   }
 
 }

@@ -45,53 +45,43 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get frequency() {
-    if(!this.node) return this.__preNodeValues?.frequency;
-    return this.node.frequency.value;
+    return this.node?.frequency.value;
   }
 
   set frequency(frequency) {
-    if(!this.node) this.__preNodeValues.frequency = frequency;
-    else this.node.frequency.value = parseFloat(frequency);
+    this.node.frequency.value = parseFloat(frequency);
   }
 
   get detune() {
-    if(!this.node) return this.__preNodeValues?.detune;
-    return this.node.detune.value;
+    return this.node?.detune.value;
   }
 
   set detune(detune) {
-    if(!this.node) this.__preNodeValues.detune = detune;
-    else this.node.detune.value = parseFloat(detune);
+    this.node.detune.value = parseFloat(detune);
   }
 
   get Q() {
-    if(!this.node) return this.__preNodeValues?.Q;
-    return this.node.Q.value;
+    return this.node?.Q.value;
   }
 
   set Q(Q) {
-    if(!this.node) this.__preNodeValues.Q = Q;
-    else this.node.Q.value = parseFloat(Q);
+   this.node.Q.value = parseFloat(Q);
   }
 
   get gain() {
-    if(!this.node) return this.__preNodeValues?.gain;
-    return this.node.gain.value;
+    return this.node?.gain.value;
   }
 
   set gain(gain) {
-    if(!this.node) this.__preNodeValues.gain = gain;
-    else this.node.gain.value = parseFloat(gain);
+    this.node.gain.value = parseFloat(gain);
   }
 
   get type() {
-    if(!this.node) return this.__preNodeValues?.type;
-    return this.node.type;
+    return this.node?.type;
   }
 
   set type(type) {
-    if(!this.node) this.__preNodeValues.type = type;
-    else this.node.type = type;
+    this.node.type = type;
   }
 
 }

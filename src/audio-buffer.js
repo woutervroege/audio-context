@@ -12,33 +12,25 @@ class AudioBuffer extends PropertiesChangedHandler(PropertiesChangedCallback(Pro
 
         arrayBuffer: {
           observe: true,
+          changedHandler: '__decode'
         },
 
         buffer: {
           observe: true,
           changedHandler: '__bufferChanged'
         },
-
-        __context: {
-          observe: true,
-        },
   
       }
     };
   }
 
-  static get propertiesChangedHandlers() {
-    return {
-      ...super.propertiesChangedHandlers,
-      ...{      
-        __decode: ['arrayBuffer', '__context'],
-      }
-    };
+  get context() {
+    return this.closest('audio-context')?.context;
   }
   
   __decode() {
-    if(! (this.arrayBuffer && this.__context) ) return;
-    this.__context.decodeAudioData(this.arrayBuffer, data => this.buffer = data );
+    if(! (this.arrayBuffer) ) return;
+    this.context.decodeAudioData(this.arrayBuffer, data => this.buffer = data );
   }
 
   __bufferChanged() {

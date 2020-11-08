@@ -20,43 +20,38 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
         changedHandler: '__destinationIdChanged'
       },
 
-      __context: {
-        observe: true,
-      },
-
-      __audioElements: {
-        observe: true,
-      },
-
     };
   }
 
   static get propertiesChangedHandlers() {
     return {
-      __create: ['__context'],
-      __connect: ['node', '__audioElements', 'destinationId'],
+      __connect: ['node', 'destinationId'],
     };
   }
 
   constructor() {
     super();
-    this.__audioElements = [];
-    this.__preNodeValues = {};
+    this.__create();
   }
 
   get destinations() {
     return this.__getDestinations(this.destinationId);
   }
 
-  __create() {
-    if(! (this.__context) ) return;
-    this.node = this.__context[this.constructor.__nodeCreationMethod](this.options);
-    this.__init && this.__init();
+  get context() {
+    return this.closest('audio-context')?.context;
   }
 
-  __init() {
-    for(let propName in this.__preNodeValues) this[propName] = this.__preNodeValues[propName];
-    this.__preNodeValues = {};
+  get __audioElements() {
+    return [...this.closest('audio-context').children].filter(child => child?.node ? this.__getConstructorChain(child?.node).has('AudioNode') : false);
+  }
+
+  get __bufferElements() {
+    return [...this.closest('audio-context').children].filter(child => child.localName === 'audio-buffer');
+  }
+
+  __create() {
+    this.node = this.context[this.constructor.__nodeCreationMethod](this.__nodeCreationOptions);
   }
 
   __connect() {
@@ -86,6 +81,13 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
 
   __dispatchPropChangeEvent(propName, bubbles) {
     this.dispatchEvent(new CustomEvent(`${propName}-changed`, {bubbles: bubbles}));
+  }
+
+  __getConstructorChain(obj=this.node, names=new Set()) {
+    const prototype = Object.getPrototypeOf(obj);
+    if(!prototype?.constructor) return names;
+    names.add(prototype.constructor.name);
+    return this.__getConstructorChain(prototype, names);
   }
 
 };

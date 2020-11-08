@@ -18,9 +18,6 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
           DOM: true,
           attributeName: 'buffer-id',
         },
-        __bufferElements: {
-          observe: true,
-        }
       }
     };
   }
@@ -29,7 +26,7 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.propertiesChangedHandlers,
       ...{
-        __assignBuffer: ['__bufferElements', 'node', 'bufferId'],
+        __assignBuffer: ['node', 'bufferId'],
       }
     };
   }
@@ -38,28 +35,21 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
     return 'createConvolver';
   }
 
-  constructor() {
-    super();
-    this.__bufferElements = [];
-  }
-
   get buffer() {
     const dest = this.__bufferElements.find(node => node.id === this.bufferId);
     return dest?.buffer;
   }
 
   get normalize() {
-    if(!this.node) return this.__preNodeValues?.normalize;
-    return this.node.normalize;
+    return this.node?.normalize;
   }
 
   set normalize(normalize) {
-    if(!this.node) this.__preNodeValues.normalize = normalize;
-    else this.node.normalize = normalize;
+    this.node.normalize = normalize;
   }
 
   __assignBuffer() {
-    if(! (this.__bufferElements && this.node && this.bufferId) ) return;
+    if(! (this.node && this.bufferId) ) return;
     this.node.buffer = this.buffer;
   }
 

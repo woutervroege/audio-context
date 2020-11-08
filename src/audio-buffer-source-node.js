@@ -12,9 +12,6 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
           attributeName: 'buffer-id',
           changedHandler: '__bufferIdChanged'
         },
-        __bufferElements: {
-          observe: true,
-        }
       }
     };
   }
@@ -23,18 +20,13 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.propertiesChangedHandlers,
       ...{
-        __assignBuffer: ['node', 'bufferId', '__bufferElements']
+        __assignBuffer: ['node', 'bufferId']
       }
     };
   }
 
   static get __nodeCreationMethod() {
     return 'createBufferSource';
-  }
-
-  constructor() {
-    super();
-    this.__bufferElements = [];
   }
 
   disconnectedCallback() {

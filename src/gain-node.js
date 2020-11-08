@@ -13,12 +13,6 @@ class GainNode extends BaseNodeMixin(HTMLElement) {
           fromAttributeConverter: NumberConverter.fromAttribute,
           changedHandler: function() { this.__dispatchPropChangeEvent('gain'); }
         },
-
-        outputhidden: {
-          observe: true,
-          DOM: true,
-          changedHandler: function() { this.__dispatchPropChangeEvent('outputhidden'); }
-        },
       }
     };
   }
@@ -28,13 +22,11 @@ class GainNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get gain() {
-    if(!this.node) return this.__preNodeValues?.gain;
-    return this.node.gain.value;
+    return this.node?.gain.value;
   }
 
   set gain(gain) {
-    if(!this.node) this.__preNodeValues.gain = gain;
-    else this.node.gain.value = parseFloat(gain);
+    this.node.gain.value = parseFloat(gain);
   }
   
 }
