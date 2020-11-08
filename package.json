@@ -1,6 +1,6 @@
 {
   "name": "audio-context-elements",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Declarative Custom Element Wrapper Library for the WebAudio API",
   "repository": {
     "type": "git",
