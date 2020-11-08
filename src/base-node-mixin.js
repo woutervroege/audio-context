@@ -41,6 +41,15 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     return this.closest('audio-context')?.context;
   }
 
+  get node() {
+    return this.__node;
+  }
+
+  set node(node) {
+    if(this.__node) return;
+    this.__node = node;
+  }
+
   get __audioElements() {
     return [...this.closest('audio-context').children].filter(child => child?.node ? this.__getConstructorChain(child?.node).has('AudioNode') : false);
   }

@@ -1,6 +1,5 @@
 import { Properties } from 'html-element-property-mixins';
 import { PropertyChangedHandler } from 'html-element-property-mixins/src/addons/property-changed-handler-mixin';
-const CONTEXT = new (window.AudioContext || window.webkitAudioContext)();
 
 class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)) {
 
@@ -15,15 +14,12 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
   
   constructor() {
     super();
+    this.context = new (window.AudioContext || window.webkitAudioContext)();
     this.attachShadow({mode: 'open'});
     this.shadowRoot.innerHTML = '<slot></slot>';
     this.shadowRoot.querySelector('slot').addEventListener('slotchange', this.__audioElementsChanged.bind(this));
     this.addEventListener('node-changed', this.__audioElementsChanged.bind(this));
     this.addEventListener('buffer-changed', this.__bufferElementsChanged.bind(this));
-  }
-
-  get context() {
-    return CONTEXT;
   }
 
   get audioWorklet() {
@@ -32,6 +28,15 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
 
   get baseLatency() {
     return this.context.baseLatency;
+  }
+
+  get context() {
+    return this.__context;
+  }
+
+  set context(context) {
+    if(this.__context) return;
+    this.__context = context;
   }
 
   close() {
