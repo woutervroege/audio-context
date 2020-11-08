@@ -8,9 +8,34 @@
 </head>
 <body>
 
-  <audio-context>
-    <gain-node></gain-node>
-  </audio-context>
-  
+  <audio-context id="ctx"></audio-context>
+ 
+  <script>
+
+    const gain = document.createElement('gain-node');
+    gain.setAttribute('gain', 100);
+    ctx.appendChild(gain);
+
+    const biquadFilter = document.createElement('biquad-filter-node');
+    biquadFilter.setAttribute('frequency', 10);
+    ctx.appendChild(biquadFilter);
+
+    const convolver = document.createElement('convolver-node');
+    convolver.setAttribute('normalize', '');
+    ctx.appendChild(convolver);
+
+    const delay = document.createElement('delay-node');
+    delay.setAttribute('max-delay-time', 100);
+    ctx.appendChild(delay);
+
+    const dynamicsCompressor = document.createElement('dynamics-compressor-node');
+    dynamicsCompressor.setAttribute('threshold', -10);
+    ctx.appendChild(dynamicsCompressor);
+
+    const bufferSource = document.createElement('audio-buffer-source-node');
+    ctx.appendChild(bufferSource);
+
+  </script>
+
 </body>
 </html>
