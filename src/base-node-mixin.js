@@ -13,11 +13,10 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
         changedHandler: '__nodeChanged'
       },
 
-      destinationId: {
+      dest: {
         observe: true,
         DOM: true,
-        attributeName: 'destination-id',
-        changedHandler: '__destinationIdChanged'
+        changedHandler: '__destChanged'
       },
 
     };
@@ -25,7 +24,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
 
   static get propertiesChangedHandlers() {
     return {
-      __connect: ['node', 'destinationId'],
+      __connect: ['node', 'dest'],
     };
   }
 
@@ -35,7 +34,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
   }
 
   get destinations() {
-    return this.__getDestinations(this.destinationId);
+    return this.__getDestinations(this.dest);
   }
 
   get context() {
@@ -62,15 +61,15 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
   }
 
   __getDestinations(ids='') {
-    const destinationIds = ids.split(/,/g);
-    return destinationIds.map(id => this.__getDestination(id)).filter(item => item);
+    const dests = ids.split(/,/g);
+    return dests.map(id => this.__getDestination(id)).filter(item => item);
   }
 
   __getDestination(id) {
     const dest = this.__audioElements.find(node => node.id === id);
     return dest?.node;
   }
-  __destinationIdChanged(oldDest) {
+  __destChanged(oldDest) {
     if(oldDest) this.__getDestinations(oldDest).forEach((dest) => this.node.disconnect(dest));
     this.__connected = false;
   }
