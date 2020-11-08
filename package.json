@@ -1,6 +1,6 @@
 {
   "name": "audio-context-elements",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Declarative Custom Element Wrapper Library for the WebAudio API",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "main": "src/index.js",
   "author": "Wouter Vroege",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/woutervroege/audio-context-elements/issues"
   },
@@ -26,9 +26,6 @@
     "custom-element",
     "web-component"
   ],
-  
-  "author": "Wouter Vroege",
-  "license": "MIT",
   "dependencies": {
     "html-element-property-mixins": "^0.10.12"
   },
