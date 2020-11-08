@@ -14,6 +14,7 @@
   },
   "homepage": "https://github.com/woutervroege/audio-context-elements#readme",
   "scripts": {
+    "start": "es-dev-server --http2 --node-resolve --open",
     "lint:eslint": "eslint --ext .js src --ignore-path .eslintignore",
     "format:eslint": "eslint --ext .js src --fix --ignore-path .eslintignore",
     "lint": "npm run lint:eslint",
