@@ -66,7 +66,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     this.destinations.forEach((dest) => this.node.connect(dest));
   }
 
-  __getDestinations(ids) {
+  __getDestinations(ids='') {
     const destinationIds = ids.split(/,/g);
     return destinationIds.map(id => this.__getDestination(id)).filter(item => item);
   }
