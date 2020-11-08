@@ -49,7 +49,7 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get normalize() {
-    if(!this.node) return this.__preNodeValues.normalize;
+    if(!this.node) return this.__preNodeValues?.normalize;
     return this.node.normalize;
   }
 

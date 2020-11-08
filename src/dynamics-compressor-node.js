@@ -44,7 +44,7 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get threshold() {
-    if(!this.node) return this.__preNodeValues.threshold;
+    if(!this.node) return this.__preNodeValues?.threshold;
     return this.node.threshold.value;
   }
 
@@ -54,7 +54,7 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get knee() {
-    if(!this.node) return this.__preNodeValues.knee;
+    if(!this.node) return this.__preNodeValues?.knee;
     return this.node.knee.value;
   }
 
@@ -64,7 +64,7 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get ratio() {
-    if(!this.node) return this.__preNodeValues.ratio;
+    if(!this.node) return this.__preNodeValues?.ratio;
     return this.node.ratio.value;
   }
 
@@ -74,12 +74,12 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get reduction() {
-    if(!this.node) return this.__preNodeValues.reduction;
+    if(!this.node) return this.__preNodeValues?.reduction;
     return this.node.reduction;
   }
   
   get attack() {
-    if(!this.node) return this.__preNodeValues.attack;
+    if(!this.node) return this.__preNodeValues?.attack;
     return this.node.attack.value;
   }
 
@@ -89,7 +89,7 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get release() {
-    if(!this.node) return this.__preNodeValues.release;
+    if(!this.node) return this.__preNodeValues?.release;
     return this.node.release.value;
   }
 

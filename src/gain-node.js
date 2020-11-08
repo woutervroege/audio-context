@@ -28,7 +28,7 @@ class GainNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get gain() {
-    if(!this.node) return this.__preNodeValues.gain;
+    if(!this.node) return this.__preNodeValues?.gain;
     return this.node.gain.value;
   }
 

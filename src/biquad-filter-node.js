@@ -45,7 +45,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get frequency() {
-    if(!this.node) return this.__preNodeValues.frequency;
+    if(!this.node) return this.__preNodeValues?.frequency;
     return this.node.frequency.value;
   }
 
@@ -55,7 +55,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get detune() {
-    if(!this.node) return this.__preNodeValues.detune;
+    if(!this.node) return this.__preNodeValues?.detune;
     return this.node.detune.value;
   }
 
@@ -65,7 +65,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get Q() {
-    if(!this.node) return this.__preNodeValues.Q;
+    if(!this.node) return this.__preNodeValues?.Q;
     return this.node.Q.value;
   }
 
@@ -75,7 +75,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get gain() {
-    if(!this.node) return this.__preNodeValues.gain;
+    if(!this.node) return this.__preNodeValues?.gain;
     return this.node.gain.value;
   }
 
@@ -85,7 +85,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get type() {
-    if(!this.node) return this.__preNodeValues.type;
+    if(!this.node) return this.__preNodeValues?.type;
     return this.node.type;
   }
 

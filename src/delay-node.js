@@ -34,7 +34,7 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get delayTime() {
-    if(!this.node) return this.__preNodeValues.delayTime;
+    if(!this.node) return this.__preNodeValues?.delayTime;
     return this.node.delayTime.value;
   }
 
