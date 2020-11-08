@@ -1,7 +1,18 @@
 {
-  "name": "web-audio",
+  "name": "audio-context-elements",
   "version": "0.1.0",
-  "description": "Web Audio Component",
+  "description": "Declarative Custom Element Wrapper Library for the WebAudio API",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woutervroege/audio-context-elements.git"
+  },
+  "main": "src/index.js",
+  "author": "Wouter Vroege",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/woutervroege/audio-context-elements/issues"
+  },
+  "homepage": "https://github.com/woutervroege/audio-context-elements#readme",
   "scripts": {
     "lint:eslint": "eslint --ext .js src --ignore-path .eslintignore",
     "format:eslint": "eslint --ext .js src --fix --ignore-path .eslintignore",
@@ -15,6 +26,7 @@
     "custom-element",
     "web-component"
   ],
+  
   "author": "Wouter Vroege",
   "license": "MIT",
   "dependencies": {
