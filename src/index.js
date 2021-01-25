@@ -8,3 +8,4 @@ import './convolver-node.js';
 import './delay-node.js';
 import './dynamics-compressor-node.js';
 import './gain-node.js';
+import './wave-shaper-node.js';
