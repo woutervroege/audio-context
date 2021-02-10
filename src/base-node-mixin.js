@@ -28,8 +28,8 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     };
   }
 
-  constructor() {
-    super();
+  connectedCallback() {
+    super.connectedCallback();
     this.__create();
   }
 
@@ -59,6 +59,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
   }
 
   __create() {
+    if(!this.context) return console.info('context not available yet')
     this.node = this.context[this.constructor.__nodeCreationMethod](this.__nodeCreationOptions);
   }
 
@@ -96,6 +97,12 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     if(!prototype?.constructor) return names;
     names.add(prototype.constructor.name);
     return this.__getConstructorChain(prototype, names);
+  }
+
+  __setNodeParam(propName) {
+    if(!this.node) return;
+    this.node[propName].value = this['#' + propName];
+    this.__dispatchPropChangeEvent(propName);
   }
 
 };

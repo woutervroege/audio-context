@@ -6,18 +6,26 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.properties,
       ...{
-      curve: {
-        observe: true,
-        DOM: true,
-        changedHandler: function() { this.__dispatchPropChangeEvent('curve') }
-      }
-      },
-      oversample: {
-        observe: true,
-        DOM: true,
-        changedHandler: function() { this.__dispatchPropChangeEvent('oversample') }
+        curve: {
+          observe: true,
+          DOM: true,
+        },
+        oversample: {
+          observe: true,
+          DOM: true,
+        }
       }
     }
+  }
+
+  static get propertiesChangedHandlers() {
+    return {
+      ...super.propertiesChangedHandlers,
+      ...{
+        __normalizeChanged: ['node', 'normalize'],
+        __oversampleChanged: ['node', 'oversample'],
+      }
+    };
   }
 
   static get __nodeCreationMethod() {
@@ -25,24 +33,33 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get curve() {
-    if(!this.node) return;
-    return this.node.curve;
+    return this.node?.curve.value || this['#curve'];
   }
 
   set curve(curve) {
-    if(!this.node) return;
-    this.node.curve = curve;
+    const oldVal = this.curve;
+    this['#curve'] = curve;
+    this.propertyChangedCallback('curve', oldVal, this.curve);
   }
 
   get oversample() {
-    if(!this.node) return;
-    return this.node.oversample;
+    return this.node?.oversample.value || this['#oversample'];
   }
 
   set oversample(oversample) {
-    if(!this.node) return;
-    this.node.oversample = oversample;
+    const oldVal = this.oversample;
+    this['#oversample'] = oversample;
+    this.propertyChangedCallback('oversample', oldVal, this.oversample);
   }
+
+  __curveChanged() {
+    this.__setNodeParam('curve')
+  }
+
+  __oversampleChanged() {
+    this.__setNodeParam('oversample')
+  }
+
 }
 
 window.customElements.define('wave-shaper-node', WaveShaperNode);

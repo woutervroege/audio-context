@@ -40,48 +40,91 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
     };
   }
 
+  static get propertiesChangedHandlers() {
+    return {
+      ...super.propertiesChangedHandlers,
+      ...{
+        __frequencyChanged: ['node', 'frequency'],
+        __detuneChanged: ['node', 'detune'],
+        __QChanged: ['node', 'Q'],
+        __gainChanged: ['node', 'gain'],
+        __typeChanged: ['node', 'type'],
+      }
+    };
+  }
+
   static get __nodeCreationMethod() {
     return 'createBiquadFilter';
   }
 
   get frequency() {
-    return this.node?.frequency.value;
+    return this.node?.frequency.value || this['#frequency'];
   }
 
   set frequency(frequency) {
-    this.node.frequency.value = parseFloat(frequency);
+    const oldVal = this.frequency;
+    this['#frequency'] = parseFloat(frequency);
+    this.propertyChangedCallback('frequency', oldVal, this.frequency);
   }
 
   get detune() {
-    return this.node?.detune.value;
+    return this.node?.detune.value || this['#detune'];
   }
 
   set detune(detune) {
-    this.node.detune.value = parseFloat(detune);
+    const oldVal = this.detune;
+    this['#detune'] = parseFloat(detune);
+    this.propertyChangedCallback('detune', oldVal, this.detune);
   }
 
   get Q() {
-    return this.node?.Q.value;
+    return this.node?.Q.value || this['#Q'];
   }
 
   set Q(Q) {
-   this.node.Q.value = parseFloat(Q);
+    const oldVal = this.Q;
+    this['#Q'] = parseFloat(Q);
+    this.propertyChangedCallback('Q', oldVal, this.Q);
   }
 
   get gain() {
-    return this.node?.gain.value;
+    return this.node?.gain.value || this['#gain'];
   }
 
   set gain(gain) {
-    this.node.gain.value = parseFloat(gain);
+    const oldVal = this.gain;
+    this['#gain'] = parseFloat(gain);
+    this.propertyChangedCallback('gain', oldVal, this.gain);
   }
 
   get type() {
-    return this.node?.type;
+    return this.node?.type.value || this['#type'];
   }
 
   set type(type) {
-    this.node.type = type;
+    const oldVal = this.type;
+    this['#type'] = type;
+    this.propertyChangedCallback('type', oldVal, this.type);
+  }
+
+  __frequencyChanged() {
+    this.__setNodeParam('frequency')
+  }
+
+  __detuneChanged() {
+    this.__setNodeParam('detune')
+  }
+
+  __QChanged() {
+    this.__setNodeParam('Q')
+  }
+
+  __gainChanged() {
+    this.__setNodeParam('gain')
+  }
+
+  __typeChanged() {
+    this.__setNodeParam('type')
   }
 
 }

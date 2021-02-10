@@ -12,10 +12,18 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
           DOM: true,
           attributeName: 'delay-time',
           fromAttributeConverter: NumberConverter.fromAttribute,
-          changedHandler: function() { this.__dispatchPropChangeEvent('delay-time'); }
         },
       }
     }
+  }
+
+  static get propertiesChangedHandlers() {
+    return {
+      ...super.propertiesChangedHandlers,
+      ...{
+        __delayTimeChanged: ['node', 'delayTime'],
+      }
+    };
   }
 
   static get __nodeCreationMethod() {
@@ -23,11 +31,13 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get delayTime() {
-    return this.node?.delayTime.value;
+    return this.node?.delayTime.value || this['#delayTime'];
   }
 
   set delayTime(delayTime) {
-    this.node.delayTime.value = parseFloat(delayTime);
+    const oldVal = this.delayTime;
+    this['#delayTime'] = parseFloat(delayTime);
+    this.propertyChangedCallback('delayTime', oldVal, this.delayTime);
   }
 
   get __nodeCreationOptions() {
@@ -35,6 +45,10 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
     if(!value) return undefined;
     const maxDelayTime = parseFloat(value);
     return (maxDelayTime <= 0 || maxDelayTime >= 180) ? undefined : maxDelayTime;
+  }
+
+  __delayTimeChanged() {
+    this.__setNodeParam('delayTime')
   }
 
 }

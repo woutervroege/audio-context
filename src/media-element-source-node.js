@@ -19,8 +19,8 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __create() {
-    if(!this.mediaElement) return;
-    this.node = this.context[this.constructor.__nodeCreationMethod](this.mediaElement);
+    if(!this.context || !this.mediaElement) return;
+    if(!this.node) this.node = this.context[this.constructor.__nodeCreationMethod](this.mediaElement);
   }
 
 }

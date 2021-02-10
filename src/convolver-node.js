@@ -27,6 +27,7 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
       ...super.propertiesChangedHandlers,
       ...{
         __assignBuffer: ['node', 'bufferId'],
+        __normalizeChanged: ['node', 'normalize'],
       }
     };
   }
@@ -41,16 +42,22 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get normalize() {
-    return this.node?.normalize;
+    return this.node?.normalize.value || this['#normalize'];
   }
 
   set normalize(normalize) {
-    this.node.normalize = normalize;
+    const oldVal = this.normalize;
+    this['#normalize'] = parseFloat(normalize);
+    this.propertyChangedCallback('normalize', oldVal, this.normalize);
   }
 
   __assignBuffer() {
-    if(! (this.node && this.bufferId) ) return;
+    if(! (this.node && this.buffer) ) return;
     this.node.buffer = this.buffer;
+  }
+
+  __normalizeChanged() {
+    this.__setNodeParam('normalize')
   }
 
 }
