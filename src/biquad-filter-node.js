@@ -57,6 +57,12 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
     return 'createBiquadFilter';
   }
 
+  constructor() {
+    super();
+    this.Q = 1;
+    this.type = 'lowpass';
+  }
+
   get frequency() {
     return this.node?.frequency.value || this['#frequency'];
   }
@@ -68,7 +74,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get detune() {
-    return this.node?.detune.value || this['#detune'];
+    return this.node?.detune.value || this['#detune'] || 0;
   }
 
   set detune(detune) {
@@ -83,7 +89,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
 
   set Q(Q) {
     const oldVal = this.Q;
-    this['#Q'] = parseFloat(Q);
+    this['#Q'] = parseFloat(Q || 1);
     this.propertyChangedCallback('Q', oldVal, this.Q);
   }
 
@@ -98,7 +104,7 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get type() {
-    return this.node?.type.value || this['#type'];
+    return this.node?.type || this['#type'];
   }
 
   set type(type) {
@@ -107,11 +113,11 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
     this.propertyChangedCallback('type', oldVal, this.type);
   }
 
-  __frequencyChanged() {
+  __frequencyChanged(o, n, v) {
     this.__setNodeParam('frequency')
   }
 
-  __detuneChanged() {
+  __detuneChanged(o, n, v) {
     this.__setNodeParam('detune')
   }
 
@@ -124,9 +130,11 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __typeChanged() {
-    this.__setNodeParam('type')
+    if(!this.node) return;
+    this.node.type = this['#type'];
+    this.__dispatchPropChangeEvent('type');
   }
 
 }
 
-window.customElements.define('biquad-filter-node', BiquadFilterNode);
+window.customElements.define('biquad-filter-node', BiquadFilterNode); 
