@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Station</title>
+</head>
+<body>
+
+  <script type="module" src="../../../src/index.js"></script>
+
+  <audio id="audio" src="../sounds/news.mp3"></audio>
+
+  <audio-context id="ctx">
+
+    <media-element-source-node
+      id="source"
+      dest="eq,reverb"
+    ></media-element-source-node>
+
+    <biquad-filter-node
+      id="eq"
+      frequency="600"
+      gain="1.0"
+      q="0.5"
+      type="highpass"
+      dest="gain,delay"
+    ></biquad-filter-node>
+
+    <delay-node
+      id="delay"
+      delay-time="0.0"
+      max-delay-time="1"
+      dest="feedback,gain,reverb"
+    ></delay-node>
+
+    <convolver-node
+      id="reverb"
+      dest="reverbGain"
+      normalize
+    ></convolver-node>
+
+    <gain-node
+      id="reverbGain"
+      gain="0.8"
+      dest="gain"
+    ></gain-node>
+
+    <gain-node
+      id="feedback"
+      gain="0"
+      dest="delay"
+    ></gain-node>
+
+    <gain-node
+      id="gain"
+      dest="speakers"
+      gain="1.0"
+    ></gain-node>
+
+    <audio-destination-node
+      id="speakers"
+    ></audio-destination-node>
+
+    <audio-buffer
+      id="buffer"
+    ></audio-buffer>
+
+  </audio-context>
+
+  <button id="playBtn">Play</button>
+  <button id="pauseBtn">Pause</button>
+
+  <script>
+
+    source.mediaElement = audio;
+
+    async function createReverb() {
+      let response = await fetch('../impulse-responses/RacquetballCourt.mp3');
+      let arraybuffer  = await response.arrayBuffer();
+      buffer.buffer = await ctx.context.decodeAudioData(arraybuffer);
+      reverb.bufferId = 'buffer';
+    }
+
+    window.customElements.whenDefined('audio-context').then(createReverb);
+
+    playBtn.addEventListener('click', e => {
+      ctx.resume();
+      audio.play();
+    })
+
+    pauseBtn.addEventListener('click', e => {
+      ctx.suspend();
+    })
+  </script>
+  
+</body>
+</html>

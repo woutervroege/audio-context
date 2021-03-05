@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Old Phone</title>
+</head>
+<body>
+
+  <script type="module" src="../../../src/audio-context.js"></script>
+  <script type="module" src="../../../src/index.js"></script>
+
+  <audio id="audio" src="../sounds/idontknow.mp3"></audio>
+
+  <audio-context id="ctx">
+
+    <media-element-source-node
+      id="source"
+      dest="highpass"
+    ></media-element-source-node>
+
+    <biquad-filter-node
+      id="highpass"
+      frequency="700"
+      gain="5.0"
+      q="0.71"
+      type="highpass"
+      dest="lowpass"
+    ></biquad-filter-node>
+
+    <biquad-filter-node
+      id="lowpass"
+      frequency="1100"
+      gain="5.0"
+      q="0.71"
+      type="lowpass"
+      dest="gain"
+    ></biquad-filter-node>
+
+    <gain-node
+      id="gain"
+      gain="1.0"
+      dest="speakers"
+    ></gain-node>
+
+    <audio-destination-node
+      id="speakers"
+    ></audio-destination-node>
+
+    <audio-buffer
+      id="buffer"
+    ></audio-buffer>
+
+  </audio-context>
+
+  <button id="playBtn">Play</button>
+  <button id="pauseBtn">Pause</button>
+
+  <p>
+  Highpass Freq: <input type="range" value="700" step="1" min="0" max="10000" id="highpassSlider">
+  </p>
+  
+  <p>
+  Lowpass Freq: <input type="range" value="1100" step="1" min="0" max="10000" id="lowpassSlider">
+  </p>
+
+  <script>
+
+    source.mediaElement = audio;  
+
+    playBtn.addEventListener('click', e => {
+      ctx.resume();
+      audio.play();
+    })
+
+    pauseBtn.addEventListener('click', e => {
+      ctx.suspend();
+    })
+
+    highpassSlider.addEventListener('input', e => {
+      highpass.frequency = e.target.value;
+    })
+
+    lowpassSlider.addEventListener('input', e => {
+      lowpass.frequency = e.target.value;
+    })
+  </script>
+  
+</body>
+</html>
