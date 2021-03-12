@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <script type="module" src="/src/audio-context.js"></script> -->
+  <script type="module" src="/src/gain-node.js"></script>
+  <script type="module" src="/src/media-element-source-node.js"></script>
+  <script type="module" src="/src/audio-destination-node.js"></script>
+</head>
+<body>
+
+  <audio id="source" src="effects/sounds/news.mp3"></audio>
+
+  <audio-context id="ctx">
+    <gain-node id="gainNode" gain="0.5" dest="speakers"></gain-node>
+    <media-element-source-node id="sourceNode" dest="gainNode"></media-element-source-node>
+    <audio-destination-node id="speakers"></audio-destination-node>
+  </audio-context>
+
+  <button id="button">Play</button>
+  <input id="slider" type="range" value="0.5" min="0" max="1" step="0.01">
+
+  <script>
+    sourceNode.mediaElement = source;
+    button.onclick = () => {
+      import('/src/audio-context.js').then(() => {
+        ctx.resume();
+        source.play();
+      })
+    }
+    slider.oninput = (e) => {
+      gainNode.setAttribute('gain', e.target.value);
+    }
+  </script>
