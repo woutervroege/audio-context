@@ -28,6 +28,11 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
     };
   }
 
+  constructor() {
+    super();
+    window.customElements.whenDefined('audio-context').then(this.__create.bind(this));
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.__create();
@@ -59,7 +64,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
   }
 
   __create() {
-    if(!this.context) return console.info('context not available yet')
+    if(!this.context) return; //console.info('context not available yet');
     this.node = this.context[this.constructor.__nodeCreationMethod](this.__nodeCreationOptions);
   }
 
