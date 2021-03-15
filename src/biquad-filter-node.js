@@ -59,7 +59,10 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
 
   constructor() {
     super();
+    this.frequency = 350;
+    this.detune = 0;
     this.Q = 1;
+    this.gain = 0;
     this.type = 'lowpass';
   }
 
@@ -113,11 +116,11 @@ class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
     this.propertyChangedCallback('type', oldVal, this.type);
   }
 
-  __frequencyChanged(o, n, v) {
+  __frequencyChanged() {
     this.__setNodeParam('frequency')
   }
 
-  __detuneChanged(o, n, v) {
+  __detuneChanged() {
     this.__setNodeParam('detune')
   }
 

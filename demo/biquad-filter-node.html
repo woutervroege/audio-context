@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo/biquad-filter-node</title>
+  <!-- <script type="module" src="/src/audio-context.js"></script> -->
+  <script type="module" src="/src/biquad-filter-node.js"></script>
+  <script type="module" src="/src/media-element-source-node.js"></script>
+  <script type="module" src="/src/audio-destination-node.js"></script>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+
+  <audio id="source" src="effects/sounds/news.mp3"></audio>
+
+  <audio-context id="ctx">
+    
+    <media-element-source-node id="sourceNode" dest="filterNode"></media-element-source-node>
+
+    <biquad-filter-node
+      id="filterNode"
+      dest="speakers"
+      frequency="350"
+      detune="0"
+      q="1"
+      gain="0"
+      type="lowpass"
+    ></biquad-filter-node>
+
+    <audio-destination-node id="speakers"></audio-destination-node>
+
+  </audio-context>
+
+  <button id="button">Play</button><br>
+  Frequency: <input id="freqSlider" type="range" value="350" min="0" max="24000" step="1"><br>
+  Detune; <input id="detuneSlider" type="range" value="0" min="-153600" max="153600" step="1"><br>
+  Q: <input id="qSlider" type="range" value="0" min="-1000" max="1000" step="1"><br>
+  Gain: <input id="gainSlider" type="range" value="0" min="0" max="3" step="0.01"><br>
+  Type: <select id="typeSelect">
+    <option>lowpass</option>
+    <option>highpass</option>
+    <option>bandpass</option>
+    <option>lowshelf</option>
+    <option>highshelf</option>
+    <option>peaking</option>
+    <option>notch</option>
+    <option>allpass</option>
+  </select>
+
+  <script>
+    sourceNode.mediaElement = source;
+    button.onclick = () => {
+      import('/src/audio-context.js').then(() => {
+        ctx.resume();
+        source.play();
+      })
+    }
+    freqSlider.oninput = e => filterNode.frequency = e.target.value;
+    detuneSlider.oninput = e => filterNode.detune = e.target.value;
+    qSlider.oninput = e => filterNode.q = e.target.value;
+    gainSlider.oninput = e => filterNode.gain = e.target.value;
+    typeSelect.oninput = e => filterNode.type = e.target.value;
+  </script>
