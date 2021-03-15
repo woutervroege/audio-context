@@ -47,9 +47,17 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
     };
   }
 
-
   static get __nodeCreationMethod() {
     return 'createDynamicsCompressor';
+  }
+
+  constructor() {
+    super();
+    this.threshold = -24;
+    this.knee = 30;
+    this.ratio = 12;
+    this.attack = 0.003000000026077032;
+    this.release = 0.25;
   }
 
   get threshold() {
