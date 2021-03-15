@@ -30,6 +30,11 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
     return 'createDelay';
   }
 
+  constructor() {
+    super();
+    this.delayTime = 0;
+  }
+
   get delayTime() {
     return this.node?.delayTime.value || this['#delayTime'];
   }
@@ -41,10 +46,9 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get __nodeCreationOptions() {
-    const value = this.getAttribute('max-delay-time') || this.maxDelayTime;
-    if(!value) return undefined;
+    const value = this.getAttribute('max-delay-time') || 1;
     const maxDelayTime = parseFloat(value);
-    return (maxDelayTime <= 0 || maxDelayTime >= 180) ? undefined : maxDelayTime;
+    return (maxDelayTime <= 0 || maxDelayTime >= 180) ? 1 : maxDelayTime;
   }
 
   __delayTimeChanged() {

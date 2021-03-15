@@ -25,13 +25,13 @@ class GainNode extends BaseNodeMixin(HTMLElement) {
     };
   }
 
+  static get __nodeCreationMethod() {
+    return 'createGain';
+  }
+
   constructor() {
     super();
     this.gain = 1.0;
-  }
-
-  static get __nodeCreationMethod() {
-    return 'createGain';
   }
 
   get gain() {

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>demo/gain-node</title>
+  <title>demo/delay-node</title>
   <!-- <script type="module" src="/src/audio-context.js"></script> -->
-  <script type="module" src="/src/gain-node.js"></script>
+  <script type="module" src="/src/delay-node.js"></script>
   <script type="module" src="/src/media-element-source-node.js"></script>
   <script type="module" src="/src/audio-destination-node.js"></script>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -15,13 +15,13 @@
   <audio id="source" src="effects/sounds/news.mp3"></audio>
 
   <audio-context id="ctx">
-    <media-element-source-node id="sourceNode" dest="gainNode"></media-element-source-node>
-    <gain-node id="gainNode" gain="0.5" dest="speakers"></gain-node>
+    <media-element-source-node id="sourceNode" dest="delayNode,speakers"></media-element-source-node>
+    <delay-node id="delayNode" max-delay-time="100" delay-time="0.1" dest="speakers"></delay-node>
     <audio-destination-node id="speakers"></audio-destination-node>
   </audio-context>
 
   <button id="button">Play</button>
-  <input id="slider" type="range" value="0.5" min="0" max="1" step="0.01">
+  <input id="slider" type="range" value="0.1" min="0" max="1" step="0.01">
 
   <script>
     sourceNode.mediaElement = source;
@@ -32,6 +32,6 @@
       })
     }
     slider.oninput = (e) => {
-      gainNode.setAttribute('gain', e.target.value);
+      delayNode.setAttribute('delay-time', e.target.value);
     }
   </script>
