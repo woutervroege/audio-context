@@ -1,13 +1,11 @@
-import { Properties } from 'html-element-property-mixins';
-
-class AudioDestinationNode extends Properties(HTMLElement) {
+class AudioDestinationNode extends HTMLElement {
 
   get context() {
     return this.closest('audio-context')?.context;
   }
 
   get node() {
-    return this.context.destination;
+    return this.context?.destination;
   }
 
 }
