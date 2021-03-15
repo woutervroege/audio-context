@@ -16,7 +16,11 @@
 
   <audio-context id="ctx">
     
-    <media-element-source-node id="sourceNode" dest="filterNode"></media-element-source-node>
+    <media-element-source-node
+      id="sourceNode"
+      src="source"
+      dest="filterNode"
+    ></media-element-source-node>
 
     <biquad-filter-node
       id="filterNode"
@@ -49,7 +53,6 @@
   </select>
 
   <script>
-    sourceNode.mediaElement = source;
     button.onclick = () => {
       import('/src/audio-context.js').then(() => {
         ctx.resume();

@@ -15,7 +15,13 @@
   <audio id="source" src="effects/sounds/news.mp3"></audio>
 
   <audio-context id="ctx">
-    <media-element-source-node id="sourceNode" dest="gainNode"></media-element-source-node>
+
+    <media-element-source-node
+      id="sourceNode"
+      src="source"
+      dest="gainNode"
+    ></media-element-source-node>
+
     <gain-node id="gainNode" gain="0.5" dest="speakers"></gain-node>
     <audio-destination-node id="speakers"></audio-destination-node>
   </audio-context>
@@ -24,12 +30,11 @@
   Gain: <input id="slider" type="range" value="0.5" min="0" max="1" step="0.01">
 
   <script>
-    sourceNode.mediaElement = source;
     button.onclick = () => {
       import('/src/audio-context.js').then(() => {
         ctx.resume();
         source.play();
       })
     }
-    slider.oninput = e => gainNode.setAttribute('gain', e.target.value);
+    slider.oninput = e => gainNode.gain = e.target.value;
   </script>

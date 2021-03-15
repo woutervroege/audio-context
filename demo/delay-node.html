@@ -15,7 +15,7 @@
   <audio id="source" src="effects/sounds/news.mp3"></audio>
 
   <audio-context id="ctx">
-    <media-element-source-node id="sourceNode" dest="delayNode,speakers"></media-element-source-node>
+    <media-element-source-node id="sourceNode" src="source" dest="delayNode,speakers"></media-element-source-node>
     <delay-node id="delayNode" max-delay-time="100" delay-time="0.1" dest="speakers"></delay-node>
     <audio-destination-node id="speakers"></audio-destination-node>
   </audio-context>
@@ -24,7 +24,6 @@
   Delay: <input id="slider" type="range" value="0.1" min="0" max="1" step="0.01">
 
   <script>
-    sourceNode.mediaElement = source;
     button.onclick = () => {
       import('/src/audio-context.js').then(() => {
         ctx.resume();
