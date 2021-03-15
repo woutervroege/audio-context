@@ -6,8 +6,15 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.properties,
       ...{
+        src: {
+          observe: true,
+          DOM: true,
+          changedHandler: '__srcChanged'
+        },
         mediaElement: {
           observe: true,
+          DOM: true,
+          attributeName: 'media-element',
           changedHandler: '__create'
         }
       }
@@ -20,7 +27,12 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
 
   __create() {
     if(!this.context || !this.mediaElement) return;
-    if(!this.node) this.node = this.context[this.constructor.__nodeCreationMethod](this.mediaElement);
+    this.node = this.context[this.constructor.__nodeCreationMethod](this.mediaElement);
+  }
+
+  __srcChanged(oldSrc, newSrc) {
+    if(!newSrc) return;
+    this.mediaElement = this.getRootNode().querySelector('#' + newSrc);
   }
 
 }
