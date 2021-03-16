@@ -14,8 +14,15 @@
   <audio id="source" src="effects/sounds/news.mp3"></audio>
 
   <audio-context id="ctx">
-    <media-element-source-node id="sourceNode" dest="speakers"></media-element-source-node>
+
+    <media-element-source-node
+      id="sourceNode"
+      for="source"
+      dest="speakers"
+    ></media-element-source-node>
+
     <audio-destination-node id="speakers"></audio-destination-node>
+    
   </audio-context>
 
   <button id="button">Play</button><br>

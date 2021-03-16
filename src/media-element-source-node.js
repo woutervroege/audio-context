@@ -6,10 +6,10 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.properties,
       ...{
-        src: {
+        for: {
           observe: true,
           DOM: true,
-          changedHandler: '__srcChanged'
+          changedHandler: '__forChanged'
         },
         mediaElement: {
           observe: true,
@@ -30,9 +30,9 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
     this.node = this.context[this.constructor.__nodeCreationMethod](this.mediaElement);
   }
 
-  __srcChanged(oldSrc, newSrc) {
-    if(!newSrc) return;
-    this.mediaElement = this.getRootNode().querySelector('#' + newSrc);
+  __forChanged(oldFor, newFor) {
+    if(!newFor) return;
+    this.mediaElement = this.getRootNode().querySelector('#' + newFor);
   }
 
 }
