@@ -17,7 +17,12 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
           observe: true,
           DOM: true,
           attributeName: 'buffer-id',
+          changedHandler: '__bufferIdChanged'
         },
+        buffer:{
+          observe: true,
+          changedHandler: function() { this.__dispatchPropChangeEvent('buffer'); }
+        }
       }
     };
   }
@@ -26,7 +31,7 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.propertiesChangedHandlers,
       ...{
-        __assignBuffer: ['node', 'bufferId'],
+        __assignBuffer: ['node', 'buffer'],
         __normalizeChanged: ['node', 'normalize'],
       }
     };
@@ -36,9 +41,9 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
     return 'createConvolver';
   }
 
-  get buffer() {
-    const dest = this.__bufferElements.find(node => node.id === this.bufferId);
-    return dest?.buffer;
+  constructor() {
+    super();
+    this.normalize = true;
   }
 
   get normalize() {
@@ -51,8 +56,12 @@ class ConvolverNode extends BaseNodeMixin(HTMLElement) {
     this.propertyChangedCallback('normalize', oldVal, this.normalize);
   }
 
+  __bufferIdChanged(oldId, newId) {
+    this.buffer = this.getRootNode().querySelector('#' + newId);
+  }
+
   __assignBuffer() {
-    if(! (this.node && this.buffer) ) return;
+    if(! (this.node) ) return;
     this.node.buffer = this.buffer;
   }
 

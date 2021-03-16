@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo/convolver-node</title>
+  <!-- <script type="module" src="/src/audio-context.js"></script> -->
+  <script type="module" src="/src/convolver-node.js"></script>
+  <script type="module" src="/src/media-element-source-node.js"></script>
+  <script type="module" src="/src/audio-destination-node.js"></script>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+
+  <audio id="source" src="effects/sounds/news.mp3"></audio>
+
+  <audio-context id="ctx">
+    <media-element-source-node
+      id="sourceNode"
+      for="source"
+      dest="convolverNode"
+    ></media-element-source-node>
+    <convolver-node id="convolverNode" dest="speakers"></convolver-node>
+    <audio-destination-node id="speakers"></audio-destination-node>
+  </audio-context>
+
+  <button id="button">Play</button><br>
+
+  <script>
+    (async function() {
+    })()
+
+    button.onclick = () => {
+      import('/src/audio-context.js').then(async () => {
+        ctx.resume();
+
+        let response = await fetch('/demo/effects/impulse-responses/Sleeping Giant Tower.wav');
+        let arraybuffer = await response.arrayBuffer();
+        convolverNode.buffer = await ctx.context.decodeAudioData(arraybuffer);
+
+        source.play();
+
+
+      })
+    }
+  </script>
