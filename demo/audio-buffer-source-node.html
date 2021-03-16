@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo/audio-buffer-source-node</title>
+  <!-- <script type="module" src="/src/audio-context.js"></script> -->
+  <script type="module" src="/src/audio-buffer-source-node.js"></script>
+  <script type="module" src="/src/audio-destination-node.js"></script>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+
+  <audio-context id="ctx">
+    <audio-buffer-source-node id="sourceNode" dest="speakers"></audio-buffer-source-node>
+    <audio-destination-node id="speakers"></audio-destination-node>
+  </audio-context>
+
+  <button id="button">Play</button><br>
+
+  <script>
+    (async function() {
+    })()
+
+    button.onclick = () => {
+      import('/src/audio-context.js').then(async () => {
+        ctx.resume();
+
+        let response = await fetch('/demo/effects/sounds/news.mp3');
+        let arraybuffer = await response.arrayBuffer();
+        sourceNode.buffer = await ctx.context.decodeAudioData(arraybuffer);
+
+        sourceNode.start(0);
+
+
+      })
+    }
+  </script>

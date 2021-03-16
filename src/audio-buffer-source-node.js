@@ -12,6 +12,25 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
           attributeName: 'buffer-id',
           changedHandler: '__bufferIdChanged'
         },
+        buffer:{
+          observe: true,
+          changedHandler: '__bufferChanged',
+        }
+        //detune: {
+          //TODO
+        //},
+        //loop: {
+          //TODO
+        //},
+        //loopEnd: {
+          //TODO
+        //},
+        //loopStart: {
+          //TODO
+        //},
+        //playbackRate: {
+          //TODO
+        //},
       }
     };
   }
@@ -20,7 +39,7 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
     return {
       ...super.propertiesChangedHandlers,
       ...{
-        __assignBuffer: ['node', 'bufferId']
+        __assignBuffer: ['node', 'buffer']
       }
     };
   }
@@ -30,12 +49,15 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
   }
 
   disconnectedCallback() {
-    this.node.stop();
+    return this.stop();
   }
 
-  get buffer() {
-    const dest = this.__bufferElements.find(node => node.id === this.bufferId);
-    return dest?.buffer;
+  start() {
+    return this.node?.start(...arguments);
+  }
+
+  stop() {
+    return this.node?.stop(...arguments);
   }
 
   __assignBuffer() {
@@ -45,10 +67,15 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
     this.node.buffer = this.buffer;
   }
 
-  __bufferIdChanged(oldVal, newVal) {
+  __bufferIdChanged(oldId, newId) {
+    this.buffer = this.getRootNode().querySelector('#' + newId);
+  }
+
+  __bufferChanged(oldVal, newVal) {
     this.__bufferAssigned = false;
     if(!this.node) return;
     if(newVal) this.node.buffer = null;
+    this.__dispatchPropChangeEvent('buffer');
   }
 
 }
