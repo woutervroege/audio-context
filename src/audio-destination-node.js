@@ -1,4 +1,6 @@
-class AudioDestinationNode extends HTMLElement {
+import { AudioNodeMixin } from './audio-node-mixin.js';
+
+class AudioDestinationNode extends AudioNodeMixin(HTMLElement) {
 
   get context() {
     return this.closest('audio-context')?.context;

@@ -1,7 +1,7 @@
-import { BaseNodeMixin } from './base-node-mixin.js';
+import { AudioNodeMixin } from './audio-node-mixin.js';
 import { BooleanConverter, NumberConverter } from 'html-element-property-mixins/src/utils/attribute-converters';
 
-class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
+class AudioBufferSourceNode extends AudioNodeMixin(HTMLElement) {
 
   static get properties() {
     return {

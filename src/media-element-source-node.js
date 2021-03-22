@@ -1,6 +1,6 @@
-import { BaseNodeMixin } from './base-node-mixin.js';
+import { AudioNodeMixin } from './audio-node-mixin.js';
 
-class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
+class MediaElementSourceNode extends AudioNodeMixin(HTMLElement) {
 
   static get properties() {
     return {

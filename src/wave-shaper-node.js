@@ -1,6 +1,6 @@
-import { BaseNodeMixin } from './base-node-mixin.js';
+import { AudioNodeMixin } from './audio-node-mixin.js';
 
-class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
+class WaveShaperNode extends AudioNodeMixin(HTMLElement) {
 
   static get properties() {
     return {

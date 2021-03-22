@@ -1,7 +1,7 @@
-import { BaseNodeMixin } from './base-node-mixin.js';
+import { AudioNodeMixin } from './audio-node-mixin.js';
 import { NumberConverter } from 'html-element-property-mixins/src/utils/attribute-converters';
 
-class BiquadFilterNode extends BaseNodeMixin(HTMLElement) {
+class BiquadFilterNode extends AudioNodeMixin(HTMLElement) {
 
   static get properties() {
     return {
