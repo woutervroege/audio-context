@@ -157,7 +157,7 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __detuneChanged() {
-    this.__setNodeParam('detune')
+    this.__setNodeParam('detune');
   }
   
   __loopChanged() {
@@ -179,7 +179,7 @@ class AudioBufferSourceNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __playbackRateChanged() {
-    this.__setNodeParam('playbackRate')
+    this.__setNodeParam('playbackRate');
   }
 
 }

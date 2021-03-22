@@ -18,7 +18,7 @@ class MediaElementSourceNode extends BaseNodeMixin(HTMLElement) {
           changedHandler: '__create'
         }
       }
-    }
+    };
   }
 
   static get __nodeCreationMethod() {

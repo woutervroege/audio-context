@@ -14,7 +14,7 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
           fromAttributeConverter: NumberConverter.fromAttribute,
         },
       }
-    }
+    };
   }
 
   static get propertiesChangedHandlers() {
@@ -52,7 +52,7 @@ class DelayNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __delayTimeChanged() {
-    this.__setNodeParam('delayTime')
+    this.__setNodeParam('delayTime');
   }
 
 }

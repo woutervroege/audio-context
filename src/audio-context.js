@@ -17,9 +17,6 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
     this.context = new (window.AudioContext || window.webkitAudioContext)();
     this.attachShadow({mode: 'open'});
     this.shadowRoot.innerHTML = '<slot></slot>';
-    this.shadowRoot.querySelector('slot').addEventListener('slotchange', this.__audioElementsChanged.bind(this));
-    this.addEventListener('node-changed', this.__audioElementsChanged.bind(this));
-    this.addEventListener('buffer-changed', this.__bufferElementsChanged.bind(this));
   }
 
   get audioWorklet() {
@@ -85,14 +82,6 @@ class AudioContextElement extends PropertyChangedHandler(Properties(HTMLElement)
 
   suspend() {
     return this.context.suspend();
-  }
-
-  __audioElementsChanged() {
-    this.dispatchEvent(new CustomEvent('nodes-changed', {composed: true, bubbles: true}));
-  }
-
-  __bufferElementsChanged() {
-    this.dispatchEvent(new CustomEvent('buffers-changed', {composed: true, bubbles: true}));
   }
 
 }

@@ -115,23 +115,23 @@ class DynamicsCompressorNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __thresholdChanged() {
-    this.__setNodeParam('threshold')
+    this.__setNodeParam('threshold');
   }
   
   __kneeChanged() {
-    this.__setNodeParam('knee')
+    this.__setNodeParam('knee');
   }
   
   __ratioChanged() {
-    this.__setNodeParam('ratio')
+    this.__setNodeParam('ratio');
   }
   
   __attackChanged() {
-    this.__setNodeParam('attack')
+    this.__setNodeParam('attack');
   }
   
   __releaseChanged() {
-    this.__setNodeParam('release')
+    this.__setNodeParam('release');
   }
 
 }
