@@ -34,7 +34,7 @@ class AudioBuffer extends PropertiesChangedHandler(PropertiesChangedCallback(Pro
   }
 
   __bufferChanged() {
-    this.dispatchEvent(new CustomEvent('buffer-changed', {bubbles: true}));
+    this.dispatchEvent(new CustomEvent('buffer-changed'));
   }
 
 }

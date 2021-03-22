@@ -90,7 +90,7 @@ export const BaseNodeMixin = (SuperClass) => class extends PropertiesChangedHand
   }
 
   __nodeChanged(oldVal, newVal) {
-    if(newVal && !oldVal) this.__dispatchPropChangeEvent('node', true);
+    if(newVal && !oldVal) this.__dispatchPropChangeEvent('node');
   }
 
   __dispatchPropChangeEvent(propName, bubbles) {
