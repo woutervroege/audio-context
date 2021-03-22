@@ -5,17 +5,16 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
   static get properties() {
     return {
       ...super.properties,
-      // ...{
-      //   curve: {
-      //     observe: true,
-      //     DOM: true,
-      //   },
-      //   oversample: {
-      //     observe: true,
-      //     DOM: true,
-      //   }
-      // }
-    }
+      ...{
+        curve: {
+          observe: true,
+        },
+        oversample: {
+          observe: true,
+          DOM: true,
+        }
+      }
+    };
   }
 
   static get propertiesChangedHandlers() {
@@ -41,7 +40,7 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
   get curve() {
     return this.node?.curve || this['#curve'];
   }
-
+  
   set curve(curve) {
     const oldVal = this.curve;
     this['#curve'] = curve;
@@ -49,9 +48,9 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
   }
 
   get oversample() {
-    return this.node?.oversample.value || this['#oversample'];
+    return this.node?.oversample || this['#oversample'];
   }
-
+  
   set oversample(oversample) {
     const oldVal = this.oversample;
     this['#oversample'] = oversample;
@@ -59,12 +58,11 @@ class WaveShaperNode extends BaseNodeMixin(HTMLElement) {
   }
 
   __curveChanged() {
-    console.info('__curveChanged', this.node, this.curve, this.oversample);
     if(!this.node) return;
     this.node.curve = this['#curve'];
     this.__dispatchPropChangeEvent('curve');
   }
-
+  
   __oversampleChanged() {
     if(!this.node) return;
     this.node.oversample = this['#oversample'];

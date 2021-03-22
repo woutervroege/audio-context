@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo/wave-shaper-node</title>
+  <!-- <script type="module" src="/src/audio-context.js"></script> -->
+  <script type="module" src="/src/wave-shaper-node.js"></script>
+  <script type="module" src="/src/media-element-source-node.js"></script>
+  <script type="module" src="/src/audio-destination-node.js"></script>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+
+  <audio id="source" src="effects/sounds/news.mp3"></audio>
+
+  <audio-context id="ctx">
+    <media-element-source-node id="sourceNode" for="source" dest="waveShaperNode"></media-element-source-node>
+    <wave-shaper-node id="waveShaperNode" dest="speakers"></wave-shaper-node>
+    <audio-destination-node id="speakers"></audio-destination-node>
+  </audio-context>
+
+  <button id="button">Play</button><br>
+  Distortion: <input id="slider" type="range" value="50" min="0" max="1000" step="1">
+
+  <script>
+
+    function distortSound(amount=50) {
+      var k = parseInt(amount);
+      var n_samples = 44100;
+      var curve = new Float32Array(n_samples);
+      var deg = Math.PI / 180;
+      var i = 0;
+      var x;
+      for ( ; i < n_samples; ++i ) {
+        x = i * 2 / n_samples - 1;
+        curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+      }
+      return curve;
+    }
+
+    waveShaperNode.curve = distortSound(50);
+
+    button.onclick = () => {
+      import('/src/audio-context.js').then(() => {
+        ctx.resume();
+        source.play();
+      })
+    }
+    slider.oninput = e => waveShaperNode.curve = distortSound(e.target.value);
+  </script>
