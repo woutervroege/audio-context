@@ -58,6 +58,7 @@ class DynamicsCompressorNode extends AudioNodeMixin(HTMLElement) {
     this.ratio = 12;
     this.attack = 0.003000000026077032;
     this.release = 0.25;
+    this.channelCountMode = 'clamped-max';
   }
 
   get threshold() {

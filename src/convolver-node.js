@@ -44,6 +44,7 @@ class ConvolverNode extends AudioNodeMixin(HTMLElement) {
   constructor() {
     super();
     this.normalize = true;
+    this.channelCountMode = 'clamped-max';
   }
 
   get normalize() {
